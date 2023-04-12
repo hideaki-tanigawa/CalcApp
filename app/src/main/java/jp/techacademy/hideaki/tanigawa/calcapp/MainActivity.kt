@@ -28,8 +28,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val math1 = binding.etMath1.text.toString()
         val math2 = binding.etMath2.text.toString()
 
-        if(math1.equals("") || math2.equals("")){
+        if (math1.equals("") || math2.equals("")) {
             Snackbar.make(v, "数値１または数値２が未入力です", Snackbar.LENGTH_INDEFINITE).show()
+        }else if(math1.equals("0") || math2.equals("0")) {
+            Snackbar.make(v, "0での割り算はできません。", Snackbar.LENGTH_INDEFINITE).show()
+        }else if(math1.equals("0.0") || math2.equals("0.0")){
         }else{
             val intent = Intent(this, EditText::class.java)
             intent.putExtra("VALUE1", math1.toDouble())
