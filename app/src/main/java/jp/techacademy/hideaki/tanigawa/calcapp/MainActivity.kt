@@ -27,12 +27,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         val math1 = binding.etMath1.text.toString()
         val math2 = binding.etMath2.text.toString()
+        var check = 0
 
         if (math1.equals("") || math2.equals("")) {
             Snackbar.make(v, "数値１または数値２が未入力です", Snackbar.LENGTH_INDEFINITE).show()
-        }else if(math1.equals("0") || math2.equals("0")) {
-            Snackbar.make(v, "0での割り算はできません。", Snackbar.LENGTH_INDEFINITE).show()
-        }else if(math1.equals("0.0") || math2.equals("0.0")){
         }else{
             val intent = Intent(this, EditText::class.java)
             intent.putExtra("VALUE1", math1.toDouble())
@@ -41,9 +39,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.btSum -> intent.putExtra("VALUE3",1)
                 R.id.btSubtraction -> intent.putExtra("VALUE3",2)
                 R.id.btMultiplication -> intent.putExtra("VALUE3",3)
-                R.id.btDivision -> intent.putExtra("VALUE3",4)
+                R.id.btDivision -> {
+                    if(math2.equals("0") || math2.equals("0.0")){
+                        check = 1
+                    }else{
+                        intent.putExtra("VALUE3",4)
+                    }
+                }
             }
-            startActivity(intent)
+            if(check == 0){
+                startActivity(intent)
+            }else{
+                Snackbar.make(v, "0での割り算はできません。", Snackbar.LENGTH_INDEFINITE).show()
+            }
         }
     }
 }
